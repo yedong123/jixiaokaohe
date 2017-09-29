@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/header.css" />
+    <style>
+    header {
+        background-color: #6AB494;
+        position: relative;
+    }
+    
+    header ul li {
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        display: none;
+        color: #323237;
+        position: relative;
+        font-size: 18px;
+    }
+    
+    header ul li.active {
+        display: block;
+    }
+    
+    #footer {
+        background-color: #f2f2f2;
+    }
+    
+    #footer ul li {
+        padding-top: 36px;
+        padding-bottom: 4px;
+        background: url() no-repeat center 2px;
+        background-size: auto 30px;
+        text-align: center;
+    }
+    
+    #footer ul li.active {
+        color:#00B3F1;
+    }
+    
+    #footer ul li:nth-child(1) {
+        background-image: url(../image/0.png);
+    }
+    
+    #footer ul li:nth-child(2) {
+        background-image: url(../image/1.png);
+    }
+    #footer ul li:nth-child(3) {
+        background-image: url(../image/2.png);
+    }
+    #footer ul li:nth-child(4) {
+        background-image: url(../image/3.png);
+    }
+    #footer ul li:nth-child(1).active {
+        background-image: url(../image/0a.png);
+    }
+    #footer ul li:nth-child(2).active {
+        background-image: url(../image/1a.png);
+    }
+    #footer ul li:nth-child(3).active {
+        background-image: url(../image/2a.png);
+    }
+    #footer ul li:nth-child(4).active {
+        background-image: url(../image/3a.png);
+    }
+    .hidden {
+        display: none;
+    }
+    </style>
+</head>
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+    <header class="header" id="header">首页</header>
+        <div id="main" class="flex-con"></div>
+        <div id="footer" class="border-t">
+            <ul class="flex-wrap">
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">首页</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">微笑</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">指南针</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">个人中心</li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+apiready = function() {
+    fnReady();
+    fnCloseApp();
+    fnOpenFrameGroup();
+};
+//定义一个页头标题的数组
+var headerTitles=['首页','微笑','指南针','个人中心'];
+//声明一个数组存放进入主页时需要打开的framegroup的所有页面和底部导航栏个数一致，
+//也可以岁底部导航栏增加或删除某个frame
+var frames=[{
+            name: 'main_frame0', 
+            url: './main_frame0.html',
+            bgColor: '#fff',
+            bounces:true
+        },{
+            name: 'main_frame1', 
+            url: './main_frame1.html', 
+            bgColor: '#fff'
+        },{
+            name: 'main_frame2', 
+            url: './main_frame2.html', 
+            bgColor: '#fff'
+        },{
+            name: 'main_frame3', 
+            url: './main_frame3.html', 
+            bgColor: '#fff'
+        }];
+//初始化framegroup
+function fnOpenFrameGroup(){
+    api.openFrameGroup ({
+        name: 'group',
+        background: '#fff',
+        scrollEnabled: false,
+        rect: {
+             x: 0, 
+             y: headerHeight, 
+             w: 'auto', 
+             h: $api.dom('#main').offsetHeight-headerHeight
+        },
+        index: 0,
+        frames: frames
+    }, function(ret, err){
+      
+    });
+}
+// 随意切换按钮
+function randomSwitchBtn(tag) {
+    //当点击的导航按钮就是被选中的按钮时结束方法
+    if (tag == $api.dom('#footer li.active')) {
+        return;
+    }
+    var eFootLis = $api.domAll('#footer li'),index = 0;
+    for (var i = 0, len = eFootLis.length; i < len; i++) {
+        if (tag == eFootLis[i]) {
+            index = i;
+        } else {
+            $api.removeCls(eFootLis[i], 'active');
+        }
+    }
+    $api.addCls(eFootLis[index], 'active');
+    //改变标题
+    $api.byId('header').innerHTML=headerTitles[index];
+    api.setFrameGroupIndex({
+        name: 'group',
+        index: index
+    });
+}
+</script>
+</html>

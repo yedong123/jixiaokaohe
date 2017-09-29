@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/header.css" />
+    <style>
+    
+    </style>
+</head>
+
+<body>
+    <!-- <header class="header" id="header">首页</header> -->
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+apiready = function() {
+    fnInit();
+};
+
+function fnInit(){
+    var headerHeight=$api.offset($api.byId('header')).h;
+    fnOpenframe(headerHeight);
+}
+function fnOpenframe(headerHeight){
+    api.openFrame({
+        name: 'home',
+        url: './main0/home.html',
+        rect: {
+            x: 0,
+            y: headerHeight,
+            w: 'auto',
+            h: 300
+        },
+        pageParam: {
+            name: 'test'
+        },
+        bounces: true,
+        bgColor: 'rgba(0,0,0,0)',
+        vScrollBarEnabled: true,
+        hScrollBarEnabled: true
+    });
+}
+</script>
+
+</html>
